@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<title>Urenregistratie · Poetszorg</title>
+<meta name="pz-template" content="kennisbank-artikel" />
+<meta name="pz-last-modified" content="2026-06-04" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Kleur — Poetszorg huisstijl tokens */
+    --pz-blue:       #0079b1;
+    --pz-deep:       #00567d;
+    --pz-mid:        #5fb0d6;
+    --pz-soft:       #b6dff0;
+    --pz-sky:        #e7f5fc;
+    --pz-terra:      #c03b23;
+    --pz-terra-soft: #fbe6df;
+    --pz-cream:      #faf7f0;
+    --pz-white:      #ffffff;
+    --pz-ink:        #0e2230;
+    --pz-ink-soft:   #45576a;
+    --pz-ink-mute:   #8696a8;
+    --pz-line:       #d2e3ec;
+
+    --pz-font-sans:   'Manrope', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --pz-font-script: 'Caveat', cursive;
+
+    --pz-radius-card:  18px;
+    --pz-radius-pill:  999px;
+    --pz-shadow-card:  0 1px 0 rgba(14,34,48,.03), 0 6px 16px -10px rgba(14,34,48,.08);
+    --pz-shadow-pop:   0 18px 40px -16px rgba(14,34,48,.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--pz-font-sans);
+    color: var(--pz-ink);
+    background: var(--pz-sky);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: var(--pz-deep); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+  a:hover { color: var(--pz-terra); }
+
+  /* ============ Layout shell ============ */
+  .shell { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ============ Top bar met logo ============ */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--pz-line);
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    gap: 24px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--pz-ink);
+  }
+  .brand-logo {
+    height: 44px;
+    width: auto;
+    display: block;
+  }
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--pz-ink-mute);
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .breadcrumb span { color: var(--pz-deep); }
+
+  /* ============ Hero met boog ============ */
+  .hero {
+    position: relative;
+    background: var(--pz-blue);
+    background-image:
+      radial-gradient(120% 90% at 0% 0%, rgba(95,176,214,.35) 0%, transparent 55%),
+      radial-gradient(80% 80% at 100% 100%, rgba(0,86,125,.55) 0%, transparent 60%);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-arc {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .55;
+    mix-blend-mode: multiply;
+  }
+  .hero-arc svg { width: 100%; height: 100%; }
+  /* Onderkant van de hero loopt over in een boog naar de volgende sectie */
+  .hero-wave {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 56px;
+    margin-bottom: -1px;
+  }
+  .hero-wave svg { width: 100%; height: 100%; display: block; }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    padding: 64px 0 72px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--pz-white);
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.4);
+    padding: 8px 14px;
+    border-radius: var(--pz-radius-pill);
+    width: max-content;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--pz-terra);
+  }
+  .hero h1 {
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: #fff;
+    margin: 0;
+    max-width: 720px;
+  }
+  .hero h1 .script {
+    display: block;
+    font-family: var(--pz-font-script);
+    font-weight: 500;
+    color: rgba(255,255,255,.92);
+    font-size: .55em;
+    margin-top: 8px;
+    letter-spacing: 0;
+    line-height: 1.1;
+  }
+  .hero-lede {
+    color: rgba(255,255,255,.92);
+    font-size: 18px;
+    line-height: 1.55;
+    max-width: 580px;
+    margin: 0;
+  }
+
+  /* ============ Sections ============ */
+  section { padding: 56px 0; }
+  section .section-head {
+    margin: 0 0 32px;
+    max-width: 720px;
+  }
+  section .section-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--pz-blue);
+    margin: 0 0 10px;
+  }
+  section h2 {
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0 0 8px;
+    color: var(--pz-ink);
+  }
+  section h2 .script {
+    display: block;
+    font-family: var(--pz-font-script);
+    font-weight: 500;
+    color: var(--pz-blue);
+    font-size: .7em;
+    margin-top: 4px;
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+  section .section-intro {
+    color: var(--pz-ink-soft);
+    font-size: 17px;
+    margin: 0;
+  }
+
+  /* ============ Stap-cards ============ */
+  .steps { display: grid; gap: 20px; }
+  .step {
+    background: #fff;
+    border: 1px solid var(--pz-line);
+    border-radius: var(--pz-radius-card);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    box-shadow: var(--pz-shadow-card);
+    position: relative;
+  }
+  .step-number {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--pz-blue);
+    color: #fff;
+    font-weight: 800;
+    font-size: 24px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 12px -4px rgba(0,121,177,.5);
+  }
+  .step-when {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--pz-terra);
+    background: var(--pz-terra-soft);
+    padding: 5px 12px;
+    border-radius: var(--pz-radius-pill);
+    margin: 0 0 10px;
+  }
+  .step h3 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    color: var(--pz-ink);
+    line-height: 1.2;
+  }
+  .step p {
+    margin: 0 0 12px;
+    color: var(--pz-ink-soft);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .step p:last-child { margin-bottom: 0; }
+  .step strong { color: var(--pz-ink); font-weight: 700; }
+
+  /* Inline tip-box binnen een stap */
+  .step-tip {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    align-items: start;
+    background: var(--pz-sky);
+    border: 1px solid var(--pz-soft);
+    border-left: 4px solid var(--pz-blue);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 15px;
+  }
+  .step-tip .ico {
+    width: 24px; height: 24px;
+    background: var(--pz-blue);
+    color: #fff;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 800;
+    font-size: 14px;
+    flex: 0 0 auto;
+  }
+  .step-tip strong { color: var(--pz-deep); }
+
+  /* Belangrijke "doe-dit"-instructiebox binnen stap 1 */
+  .step-instruction {
+    background: var(--pz-cream);
+    border: 1px dashed var(--pz-line);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--pz-ink-soft);
+  }
+  .step-instruction strong { color: var(--pz-ink); }
+
+  /* ============ FAQ — accordion ============ */
+  .faq { display: grid; gap: 12px; }
+  .faq-item {
+    background: #fff;
+    border: 1px solid var(--pz-line);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .faq-item[open] {
+    border-color: var(--pz-soft);
+    box-shadow: var(--pz-shadow-card);
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--pz-ink);
+    letter-spacing: -0.005em;
+    line-height: 1.35;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: var(--pz-deep); }
+  .faq-item summary .chev {
+    flex: 0 0 auto;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--pz-sky);
+    border: 1.5px solid var(--pz-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s ease, background .15s ease, border-color .15s ease;
+    color: var(--pz-blue);
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 1;
+  }
+  .faq-item[open] summary .chev {
+    transform: rotate(180deg);
+    background: var(--pz-blue);
+    border-color: var(--pz-blue);
+    color: #fff;
+  }
+  .faq-item .faq-body {
+    padding: 0 24px 22px;
+    color: var(--pz-ink-soft);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .faq-item .faq-body p { margin: 0 0 12px; }
+  .faq-item .faq-body p:last-child { margin-bottom: 0; }
+  .faq-item .faq-body strong { color: var(--pz-ink); font-weight: 700; }
+  .faq-item .faq-body ul {
+    padding-left: 0;
+    list-style: none;
+    margin: 0 0 12px;
+  }
+  .faq-item .faq-body li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 10px;
+  }
+  .faq-item .faq-body li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 9px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--pz-blue);
+  }
+  .faq-alert {
+    background: var(--pz-terra-soft);
+    border-left: 4px solid var(--pz-terra);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--pz-ink);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  /* ============ Footer ============ */
+  footer {
+    background: var(--pz-deep);
+    color: rgba(255,255,255,.7);
+    padding: 36px 0;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: .04em;
+  }
+  footer .foot-hart { display: inline-block; vertical-align: middle; margin-right: 8px; }
+  footer strong { color: #fff; font-weight: 700; }
+
+  /* ============ Responsive ============ */
+  @media (max-width: 640px) {
+    .hero-inner { padding: 48px 0 56px; }
+    .step { grid-template-columns: 1fr; padding: 22px; gap: 16px; }
+    .step-number { width: 48px; height: 48px; font-size: 20px; }
+    .faq-item summary { padding: 16px 18px; font-size: 16px; }
+    .faq-item .faq-body { padding: 0 18px 18px; }
+    .topbar-inner { flex-wrap: wrap; }
+    .breadcrumb { font-size: 11px; }
+  }
+
+  /* ============ Print ============ */
+  @media print {
+    body { background: #fff; }
+    .topbar, footer { background: #fff; color: var(--pz-ink); }
+    footer .foot-hart path { stroke: var(--pz-terra); }
+    .hero { background: var(--pz-blue); }
+    .hero-arc { opacity: .25; }
+    .hero-wave { display: none; }
+    .faq-item { break-inside: avoid; page-break-inside: avoid; }
+    .step { break-inside: avoid; page-break-inside: avoid; }
+    /* Forceer alle FAQ-items open in print */
+    .faq-item .faq-body { display: block !important; }
+    .faq-item summary .chev { display: none; }
+  }
+
+
+  /* ==== Hero media (knop / video) ==== */
+  .hero-cta{display:inline-flex;align-items:center;gap:11px;width:max-content;background:#fff;color:var(--pz-deep);font-weight:800;font-size:16px;padding:13px 22px;border-radius:var(--pz-radius-pill);text-decoration:none;box-shadow:0 10px 24px -12px rgba(0,0,0,.4);transition:transform .15s ease,box-shadow .15s ease}
+  .hero-cta:hover{color:var(--pz-deep);transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(0,0,0,.5)}
+  .hero-cta .play{width:26px;height:26px;border-radius:50%;background:var(--pz-terra);color:#fff;display:grid;place-items:center;font-size:11px;flex:0 0 auto}
+  .hero-video{position:relative;width:100%;max-width:440px;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:var(--pz-shadow-pop);border:3px solid rgba(255,255,255,.85);background:#0b1d28}
+  .hero-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .hero-video-play{position:absolute;inset:0;width:100%;height:100%;border:0;margin:0;padding:0;cursor:pointer;background:#0b1d28;display:block;text-decoration:none}
+  .hero-video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-video-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:var(--pz-terra);color:#fff;display:grid;place-items:center;font-size:22px;padding-left:4px;box-shadow:0 8px 22px -6px rgba(0,0,0,.55),0 0 0 6px rgba(255,255,255,.25);transition:transform .15s ease,background .15s ease}
+  .hero-video-play:hover .hero-video-btn{transform:translate(-50%,-50%) scale(1.08);background:#a82f1b}
+  @media print{.hero-video,.hero-cta{display:none !important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="https://poetszorg.nl">
+      <img class="brand-logo" src="https://poetszorg.nl/wp-content/themes/poetszorg-child/images/poetszorg-logo.svg" alt="Poetszorg" />
+    </a>
+    <div class="breadcrumb">Voor medewerkers · <span>Urenregistratie</span></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-arc" aria-hidden="true">
+    <svg viewBox="0 0 1200 500" preserveAspectRatio="none">
+      <path d="M 1200 80 A 1100 520 0 0 0 0 500 L 1200 500 Z" fill="#00567d"></path>
+    </svg>
+  </div>
+  <div class="shell hero-inner">
+    <span class="hero-eyebrow">Instructie · Urenregistratie</span>
+    <h1>
+      Urenregistratie
+      <span class="script">Elke gewerkte dag je uren registreren, zo doe je het.</span>
+    </h1>
+    <p class="hero-lede">
+      Registreer je uren correct en op tijd. Zo zorg je ervoor dat je uren kloppen, dat je op tijd uitbetaald wordt en dat we de uren netjes kunnen verantwoorden richting de gemeente.
+    </p>
+  </div>
+  <div class="hero-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M 0 60 L 0 30 Q 360 -10 720 30 T 1440 30 L 1440 60 Z" fill="#e7f5fc"/>
+    </svg>
+  </div>
+</div>
+
+<section style="background: var(--pz-sky);">
+  <div class="shell">
+    <div class="section-head">
+      <p class="section-eyebrow">Het stappenplan</p>
+      <h2>
+        In vier stappen geregeld
+        <span class="script">van planning tot ondertekenen.</span>
+      </h2>
+    </div>
+
+    <div class="steps">
+
+      <article class="step">
+        <div class="step-number">1</div>
+        <div>
+          <span class="step-when">Maandag vóór 12:00 uur</span>
+          <h3>Weekplanning controleren</h3>
+          <p>Open de app ONS Vandaag en controleer je weekplanning. Doe dit aan het begin van de week, uiterlijk vóór maandag 12:00 uur — hoe eerder, hoe beter.</p>
+          <div class="step-instruction"><strong>Klopt er iets niet?</strong> Geef je wijziging zo vroeg mogelijk door via de <strong>AFAS Pocket App</strong>: klik op <strong>‘Insturen’</strong> en kies <strong>‘Mutatie planning’</strong>. <a href="https://youtube.com/shorts/MJ6h2zlyZMo?si=Cgahz-O4qTQDbb7K">Bekijk de video-instructie →</a></div>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">2</div>
+        <div>
+          <span class="step-when">Na elk klantbezoek</span>
+          <h3>Aftekenlijst ondertekenen</h3>
+          <p>Vul je gegevens in op de fysieke aftekenlijst in de Poetszorgmap van de klant en laat de klant ondertekenen. <strong>Dit is verplicht.</strong></p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">3</div>
+        <div>
+          <span class="step-when">Na je laatste klantbezoek van de dag</span>
+          <h3>Uren registreren</h3>
+          <p>Open de app ONS Vandaag, ga naar het tabblad <strong>‘Planning’</strong> en klik op <strong>‘Uren registreren’</strong>. Je gewerkte uren worden hierdoor bevestigd en geregistreerd.</p>
+          <div class="step-tip">
+            <div class="ico">!</div>
+            <div><strong>Let op:</strong> registreer je uren alleen als ze ook daadwerkelijk kloppen met de uren die je die dag gewerkt hebt.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">4</div>
+        <div>
+          <span class="step-when">Na je laatste klantbezoek van de week</span>
+          <h3>Week ondertekenen</h3>
+          <p>Zit je week erop? Open de app ONS Vandaag, ga naar het <strong>overzicht</strong> en controleer nogmaals de gewerkte uren. Als alles klopt — klik op <strong>‘Week ondertekenen’</strong>. Hiermee bevestig je aan je coördinator dat de geregistreerde uren overeenkomen met de uren die je daadwerkelijk gewerkt hebt.</p>
+          <div class="step-tip">
+            <div class="ico">!</div>
+            <div><strong>Belangrijk:</strong> registreer eerst de uren van je laatste werkdag (stap 3) <em>vóórdat</em> je de week ondertekent. Anders mis je deze uren in je overzicht.</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section style="background: #fff;">
+  <div class="shell">
+    <div class="section-head">
+      <p class="section-eyebrow">Hulp nodig?</p>
+      <h2>
+        Veelgestelde vragen
+        <span class="script">de antwoorden op een rij.</span>
+      </h2>
+      <p class="section-intro">Klik op een vraag om het antwoord te zien. Staat jouw vraag er niet bij? Neem dan contact op met je coördinator.</p>
+    </div>
+
+    <div class="faq">
+
+      <details class="faq-item">
+        <summary>
+          Waar vind ik mijn planning?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Je planning vind je in de <strong>ONS Vandaag app</strong> onder het menu-item <strong>‘Planning’</strong>.</p>
+          <p>De instructie voor het downloaden van de app krijg je 5 dagen vóórdat je bij Poetszorg in dienst komt. De instructie kun je ook <a href="https://poetszorg-deurne.github.io/documenten/ons-vandaag.html">via deze link</a> terugvinden.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Ik kan niet (meer) inloggen in de ONS Vandaag app, wat moet ik doen?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Je inloggegevens ontvang je <strong>5 dagen vóór je indienstdatum</strong> in een aparte e-mail. In die mail vind je je inloggegevens én een instructie hoe je kunt inloggen. De instructie kun je ook <a href="https://poetszorg-deurne.github.io/documenten/ons-vandaag.html">via deze link</a> terugvinden.</p>
+          <div class="faq-alert">Loopt de app vast of werkt iets niet? Controleer eerst of je de laatste versie van de app hebt geïnstalleerd.</div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Ik kan niet (meer) inloggen in de AFAS Pocket app, wat moet ik doen?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Je inloggegevens voor AFAS ontvang je <strong>op je eerste werkdag</strong> via het e-mailadres dat bij ons bekend is. In die mail staat uitgelegd hoe je kunt inloggen. De instructie kun je ook <a href="https://poetszorg-deurne.github.io/documenten/afas-pocket.html">via deze link</a> terugvinden.</p>
+          <div class="faq-alert">Loopt de app vast of werkt iets niet? Controleer eerst of je de laatste versie van de app hebt geïnstalleerd.</div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Mijn planning klopt niet, wat nu?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Wijzigingen geef je door via de <strong>AFAS Pocket App</strong>: tik op <strong>‘Insturen’</strong> en kies <strong>‘Mutatie planning’</strong>. <a href="https://youtube.com/shorts/MJ6h2zlyZMo?si=Cgahz-O4qTQDbb7K">Bekijk de video-instructie →</a>.</p>
+          <p>Verandert er op het laatste moment toch nog iets in je planning? Bel dan ook even naar je coördinator, zodat de planning op tijd aangepast kan worden.</p>
+          <div class="faq-alert">Wijzigingen van gisteren of eerder kunnen niet meer worden aangepast in de planning.</div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Mag ik meer uren werken dan gepland?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p><strong>Nee</strong>, de uren uit de planning zijn leidend. Dit zijn ook de uren die met de klant zijn afgesproken. Is er een reden dat er (structureel) meer tijd nodig is? <strong>Neem dan contact op met je coördinator.</strong></p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Wat als ik minder tijd nodig heb?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Je werkt de <strong>geplande uren</strong>. Bij een klant is er altijd wel iets te doen binnen die tijd. Lukt het <strong>structureel</strong> in minder tijd? <strong>Neem dan contact op met je coördinator.</strong></p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Wat moet ik invullen op de aftekenlijst?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>De gegevens op de aftekenlijst moeten <strong>precies overeenkomen</strong> met de geregistreerde uren in ONS. Vul in:</p>
+          <ul>
+            <li>Week en datum</li>
+            <li>Naam</li>
+            <li>De tijd waarop je hebt gewerkt</li>
+          </ul>
+          <p>De klant zet een handtekening voor akkoord. Aftekenen is verplicht: het voorkomt misverstanden en geeft duidelijkheid over de gewerkte tijden. We hebben deze informatie ook nodig voor de verantwoording richting de gemeente. Meer informatie vind je via <a href="https://poetszorg-deurne.github.io/documenten/Werkinstructie_Aftekenlijst.html">deze link</a>.</p>
+          <p>Controle van de aftekenlijst gebeurt steekproefsgewijs.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Ik ben vergeten mijn uren te registreren — wat nu?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Geen paniek. Als de uren uit de planning kloppen met wat je daadwerkelijk hebt gewerkt, dan worden ze automatisch meegenomen in je weekoverzicht — daar onderteken je aan het einde van de week mee.</p>
+          <p><strong>Kloppen je uren niet?</strong> Stuur dan een <strong>mutatie</strong> via de AFAS Pocket App. Je uren worden dan alsnog handmatig in het systeem aangepast.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Mijn weekoverzicht klopt niet, wat moet ik doen?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Onderteken je weekoverzicht <strong>alleen</strong> als het klopt met de uren die je daadwerkelijk hebt gewerkt. Klopt het niet? Dan zijn er twee mogelijke oorzaken:</p>
+          <ul>
+            <li><strong>Je hebt de uren van een dag nog niet geregistreerd.</strong> Ga naar de planning van die dag en registreer de uren alsnog. Je ziet ze daarna direct terug in je weekoverzicht. <em>Tip: open de app eventueel opnieuw als je de uren niet meteen ziet verschijnen.</em></li>
+            <li><strong>Je hebt eerder een mutatie ingediend die nog niet is verwerkt.</strong> Neem contact op met je coördinator, zodat die de mutatie verwerkt en jij je weekoverzicht kunt ondertekenen.</li>
+          </ul>
+          <div class="faq-alert">Onderteken je week NOOIT als deze niet klopt.</div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Ik heb mijn week al ondertekend, maar er is een klantadres bijgekomen. Hoe registreer ik die uren alsnog?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Ga in de ONS Vandaag app naar je <strong>werkstaat</strong>. Tik daar op <strong>‘Ondertekenen terugdraaien’</strong>. Daarna kun je de uren alsnog registreren.</p>
+          <p>Vergeet vervolgens niet om <strong>opnieuw</strong> je week te ondertekenen!</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Ik zie dat ik mijn bezoek ook kan afvinken — wat betekent dat?
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="faq-body">
+          <p>Met afvinken houd je voor jezelf bij waar je bent geweest, maar registreer je <strong>NIET</strong> je uren. Het is dus puur voor je <strong>eigen overzicht</strong>. Het registreren van jouw uren is wel noodzakelijk. Zie hiervoor stap 3.</p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <svg class="foot-hart" viewBox="0 0 60 54" width="18" height="16" fill="none" aria-hidden="true">
+      <path d="M 30 48 C 6 36, 0 14, 16 8 C 24 6, 28 12, 30 18 C 32 12, 36 6, 44 8 C 60 14, 54 36, 30 48 Z" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <strong>Poetszorg</strong> · Uren registreren — ONS Vandaag app · Laatst gewijzigd: 4 juni 2026
+  </div>
+</footer>
+
+</body>
+</html>
